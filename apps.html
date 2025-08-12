@@ -7,6 +7,46 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script>
+(function() {
+    'use strict';
+    
+    let currentTool = null;
+    
+    function toggleTool(toolId, event) {
+        if (event) event.stopPropagation();
+        
+        console.log('🚀 Abriendo:', toolId);
+        
+        const allTools = document.querySelectorAll('.tool-form');
+        const targetTool = document.getElementById(toolId);
+        
+        if (!targetTool) {
+            console.log('❌ No encontrado:', toolId);
+            return;
+        }
+        
+        if (currentTool === toolId) {
+            targetTool.classList.remove('active');
+            currentTool = null;
+        } else {
+            allTools.forEach(tool => tool.classList.remove('active'));
+            targetTool.classList.add('active');
+            currentTool = toolId;
+            targetTool.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+    
+    document.addEventListener('click', function(e) {
+        const toolHeader = e.target.closest('[data-tool]');
+        if (toolHeader) {
+            const toolId = toolHeader.getAttribute('data-tool');
+            toggleTool(toolId, e);
+        }
+    });
+    
+})();
+</script>
     <header class="site-header">
     <div class="header-left">
         <img src="Logo (Dark Mode).jpg" alt="Crypto Tools Pro" class="site-logo">
@@ -28,7 +68,7 @@
         </div>
     </div>
 </header>
-<div class="tool-header" onclick="toggleTool('apps', event)">
+<div class="tool-header" data-tool="apps">
    <div class="header-content">
        <div class="header-left">
            <span class="tool-icon">🚀</span>
@@ -116,7 +156,7 @@
 
             <!-- DCA Calculator -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('dca', event)">
+                <div class="tool-header" data-tool="dca">
                     <span class="tool-icon">💰</span>
                     <h3 class="tool-title">DCA Calculator</h3>
                 </div>
@@ -153,7 +193,7 @@
 
             <!-- Bitcoin Calculator -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('bitcoin', event)">
+                <div class="tool-header" data-tool="bitcoin">
                     <span class="tool-icon">₿</span>
                     <h3 class="tool-title">Bitcoin Calculator</h3>
                 </div>
@@ -179,7 +219,7 @@
 
             <!-- Exchange Comparator -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('exchange', event)">
+                <div class="tool-header" data-tool="exchange">
                     <span class="tool-icon">⚖️</span>
                     <h3 class="tool-title">Exchange Comparator</h3>
                 </div>
@@ -204,7 +244,7 @@
 
             <!-- Price Alerts -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('alerts', event)">
+                <div class="tool-header" data-tool="alerts">
                     <span class="tool-icon">🔔</span>
                     <h3 class="tool-title">Price Alerts</h3>
                 </div>
@@ -236,7 +276,7 @@
 
             <!-- Fear & Greed Calculator -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('feargreed', event)">
+                <div class="tool-header" data-tool="feargreed">
                     <span class="tool-icon">😱</span>
                     <h3 class="tool-title">Fear & Greed Calculator</h3>
                 </div>
@@ -261,7 +301,7 @@
 
             <!-- Tax Calculator -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('tax', event)">
+                <div class="tool-header" data-tool="tax">
                     <span class="tool-icon">🧾</span>
                     <h3 class="tool-title">Tax Calculator</h3>
                 </div>
@@ -290,7 +330,7 @@
 
             <!-- Technical Analysis -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('technical', event)">
+                <div class="tool-header" data-tool="technical">
                     <span class="tool-icon">📈</span>
                     <h3 class="tool-title">Technical Analysis</h3>
                 </div>
@@ -320,7 +360,7 @@
 
             <!-- Trading Simulator -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('trading', event)">
+                <div class="tool-header" data-tool="trading">
                     <span class="tool-icon">🎮</span>
                     <h3 class="tool-title">Trading Simulator</h3>
                 </div>
@@ -356,7 +396,7 @@
 
             <!-- Mining Calculator -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('mining', event)">
+                <div class="tool-header" data-tool="mining">
                     <span class="tool-icon">⛏️</span>
                     <h3 class="tool-title">Mining Calculator</h3>
                 </div>
@@ -388,7 +428,7 @@
 
             <!-- Paper Wallet Generator -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('paperwallet', event)">
+                <div class="tool-header" data-tool="paperwallet">
                     <span class="tool-icon">📄</span>
                     <h3 class="tool-title">Paper Wallet Generator</h3>
                 </div>
@@ -414,7 +454,7 @@
 
             <!-- Technical Analysis -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('technical', event)">
+                <div class="tool-header" data-tool="technical">
                     <span class="tool-icon">📈</span>
                     <h3 class="tool-title">Technical Analysis</h3>
                 </div>
@@ -444,7 +484,7 @@
 
             <!-- Trading Simulator -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('trading', event)">
+                <div class="tool-header" data-tool="trading">
                     <span class="tool-icon">🎮</span>
                     <h3 class="tool-title">Trading Simulator</h3>
                 </div>
@@ -501,7 +541,7 @@
         <div class="tools-grid">
             <!-- Converter Tool -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('converter', event)">
+                <div class="tool-header" data-tool="converter">
                     <span class="tool-icon">🔄</span>
                     <h3 class="tool-title">Crypto Converter</h3>
                 </div>
@@ -536,7 +576,7 @@
 
             <!-- Portfolio Tracker -->
             <div class="tool-card">
-                <div class="tool-header" onclick="toggleTool('portfolio')">
+                <div class="tool-header" data-tool="portfolio">
                     <span class="tool-icon">📊</span>
                     <h3 class="tool-title">Portfolio Tracker</h3>
                 </div>
