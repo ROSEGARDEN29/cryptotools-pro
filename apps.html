@@ -15,16 +15,9 @@
     
     function toggleTool(toolId, event) {
         if (event) event.stopPropagation();
-        
-        console.log('🚀 Abriendo:', toolId);
-        
         const allTools = document.querySelectorAll('.tool-form');
         const targetTool = document.getElementById(toolId);
-        
-        if (!targetTool) {
-            console.log('❌ No encontrado:', toolId);
-            return;
-        }
+        if (!targetTool) return;
         
         if (currentTool === toolId) {
             targetTool.classList.remove('active');
@@ -37,14 +30,23 @@
         }
     }
     
+    // Manejar clics en herramientas y botones
     document.addEventListener('click', function(e) {
         const toolHeader = e.target.closest('[data-tool]');
+        const actionButton = e.target.closest('[data-action]');
+        
         if (toolHeader) {
             const toolId = toolHeader.getAttribute('data-tool');
             toggleTool(toolId, e);
+        } else if (actionButton) {
+            const action = actionButton.getAttribute('data-action');
+            if (window[action] && typeof window[action] === 'function') {
+                window[action]();
+            } else {
+                console.log('Función no encontrada:', action);
+            }
         }
     });
-    
 })();
 </script>
     <header class="site-header">
@@ -135,11 +137,11 @@
        </div>
        
        <div class="action-buttons">
-           <button class="btn btn-primary" onclick="calculatePortfolio()">
+           <button class="btn btn-primary" data-action="calculatePortfolio">
                <span class="btn-icon">📈</span>
                Analyze Portfolio
            </button>
-           <button class="btn btn-secondary" onclick="exportData()">
+           <button class="btn btn-secondary" data-action="exportData">
                <span class="btn-icon">📤</span>
                Export Data
            </button>
@@ -186,7 +188,7 @@
                         <label>Time Period (months):</label>
                         <input type="number" id="dcaPeriod" placeholder="12" min="1" max="60">
                     </div>
-                    <button class="btn" onclick="calculateDCA()">Calculate DCA</button>
+                    <button class="btn" data-action="calculateDCA">Calculate DCA</button>
                     <div class="result" id="dcaResult"></div>
                 </div>
             </div>
@@ -212,7 +214,7 @@
                             <option value="jpy">JPY</option>
                         </select>
                     </div>
-                    <button class="btn" onclick="calculateBitcoin()">Calculate Value</button>
+                    <button class="btn" data-action="calculateBitcoin">Calculate Value</button>
                     <div class="result" id="bitcoinResult"></div>
                 </div>
             </div>
@@ -237,7 +239,7 @@
                         <label>Amount:</label>
                         <input type="number" id="exchangeAmount" placeholder="1.0" step="any">
                     </div>
-                    <button class="btn" onclick="compareExchanges()">Compare Prices</button>
+                    <button class="btn" data-action="compareExchanges">Compare Prices</button>
                     <div class="result" id="exchangeResult"></div>
                 </div>
             </div>
@@ -269,7 +271,7 @@
                             <option value="below">Below Target</option>
                         </select>
                     </div>
-                    <button class="btn" onclick="setAlert()">Set Alert</button>
+                    <button class="btn" data-action="setAlert">Set Alert</button>
                     <div class="result" id="alertResult"></div>
                 </div>
             </div>
@@ -294,7 +296,7 @@
                         <label>Social Media Mentions:</label>
                         <input type="number" id="socialMentions" placeholder="1000" min="0">
                     </div>
-                    <button class="btn" onclick="calculateFearGreed()">Calculate Index</button>
+                    <button class="btn" data-action="calculateFearGreed">Calculate Index</button>
                     <div class="result" id="feargreedResult"></div>
                 </div>
             </div>
@@ -323,7 +325,7 @@
                         <label>Tax Rate (%):</label>
                         <input type="number" id="taxRate" placeholder="20" min="0" max="100">
                     </div>
-                    <button class="btn" onclick="calculateTax()">Calculate Tax</button>
+                    <button class="btn" data-action="calculateTax">Calculate Tax</button>
                     <div class="result" id="taxResult"></div>
                 </div>
             </div>
@@ -353,7 +355,7 @@
                             <option value="1w">1 Week</option>
                         </select>
                     </div>
-                    <button class="btn" onclick="analyzeTechnical()">Analyze</button>
+                    <button class="btn" data-action="analyzeTechnical">Analyze</button>
                     <div class="result" id="technicalResult"></div>
                 </div>
             </div>
@@ -389,7 +391,7 @@
                         <label>Amount (USD):</label>
                         <input type="number" id="tradeAmount" placeholder="1000" step="any">
                     </div>
-                    <button class="btn" onclick="simulateTrade()">Execute Trade</button>
+                    <button class="btn" data-action="simulateTrade">Execute Trade</button>
                     <div class="result" id="tradingResult"></div>
                 </div>
             </div>
@@ -421,7 +423,7 @@
                             <option value="ethereum">Ethereum (ETH)</option>
                         </select>
                     </div>
-                    <button class="btn" onclick="calculateMining()">Calculate Profitability</button>
+                    <button class="btn" data-action="calculateMining">Calculate Profitability</button>
                     <div class="result" id="miningResult"></div>
                 </div>
             </div>
@@ -446,42 +448,12 @@
                         <label>Number of Wallets:</label>
                         <input type="number" id="walletCount" placeholder="1" min="1" max="10">
                     </div>
-                    <button class="btn" onclick="generateWallet()">Generate Wallet</button>
+                    <button class="btn" data-action="generateWallet">Generate Wallet</button>
                     <div class="result" id="paperwalletResult"></div>
                 </div>
             </div>
         </div>
-
-            <!-- Technical Analysis -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="technical">
-                    <span class="tool-icon">📈</span>
-                    <h3 class="tool-title">Technical Analysis</h3>
-                </div>
-                <p class="tool-description">Advanced technical analysis indicators and signals</p>
-                <div class="tool-form" id="technical">
-                    <div class="form-group">
-                        <label>Cryptocurrency:</label>
-                        <select id="technicalCoin">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                            <option value="cardano">Cardano (ADA)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Timeframe:</label>
-                        <select id="timeframe">
-                            <option value="1h">1 Hour</option>
-                            <option value="4h">4 Hours</option>
-                            <option value="1d">1 Day</option>
-                            <option value="1w">1 Week</option>
-                        </select>
-                    </div>
-                    <button class="btn" onclick="analyzeTechnical()">Analyze</button>
-                    <div class="result" id="technicalResult"></div>
-                </div>
-            </div>
-
+		
             <!-- Trading Simulator -->
             <div class="tool-card">
                 <div class="tool-header" data-tool="trading">
@@ -569,7 +541,7 @@
                         <label>Amount:</label>
                         <input type="number" id="convertAmount" placeholder="Enter amount" step="any">
                     </div>
-                    <button class="btn" onclick="convertCurrency()">Convert</button>
+                    <button class="btn" data-action="convertCurrency">Convert</button>
                     <div class="result" id="convertResult"></div>
                 </div>
             </div>
@@ -599,7 +571,7 @@
                         <label>Purchase Price (USD):</label>
                         <input type="number" id="purchasePrice" placeholder="0.0" step="any">
                     </div>
-                    <button class="btn" onclick="calculatePortfolio()">Calculate Portfolio</button>
+                    <button class="btn" data-action="calculatePortfolio">Calculate Portfolio</button>
                     <div class="result" id="portfolioResult"></div>
                 </div>
             </div>
@@ -1371,7 +1343,7 @@ async function setAlert() {
                 </div>
                 
                 <div style="margin-top: 15px; text-align: center;">
-                    <button onclick="showActiveAlerts()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 12px;">
+                    <button data-action="showActiveAlerts" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 12px;">
                         View All Active Alerts
                     </button>
                 </div>
@@ -1631,7 +1603,7 @@ function showActiveAlerts() {
     
     result += `
             <div style="text-align: center; margin-top: 15px;">
-                <button onclick="clearAllAlerts()" style="background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer;">
+                <button data-action="clearAllAlerts" style="background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer;">
                     Clear All Alerts
                 </button>
             </div>
@@ -5306,7 +5278,7 @@ async function updatePriceTicker() {
                 <div class="ticker-error" style="text-align: center; padding: 20px; color: #ff6b6b;">
                     <div>❌ Failed to load market data</div>
                     <div style="font-size: 0.8rem; margin-top: 5px;">Check your connection and try refreshing</div>
-                    <button onclick="updatePriceTicker()" style="margin-top: 10px; padding: 5px 10px; background: rgba(255,107,107,0.2); border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 5px; cursor: pointer;">
+                    <button data-action="updatePriceTicker" style="margin-top: 10px; padding: 5px 10px; background: rgba(255,107,107,0.2); border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 5px; cursor: pointer;">
                         🔄 Retry
                     </button>
                 </div>
