@@ -48,7 +48,308 @@
         }
     });
 })();
-</script>
+    <script>
+        // Global variables
+        let cryptoData = {};
+        let currentTool = null;
+
+        // Mock data for demo (bypasses CORS issues)
+        const mockCryptoData = {
+            bitcoin: { 
+                usd: 45230.50, eur: 41850.30, gbp: 36420.80, jpy: 6785430.20,
+                usd_24h_change: 2.45, market_cap: 890000000000 
+            },
+            ethereum: { 
+                usd: 2580.75, eur: 2385.60, gbp: 2076.40, jpy: 387650.90,
+                usd_24h_change: -1.23, market_cap: 310000000000 
+            },
+            cardano: { 
+                usd: 0.4520, eur: 0.4180, gbp: 0.3640, jpy: 67.85,
+                usd_24h_change: 5.67, market_cap: 15800000000 
+            },
+            solana: { 
+                usd: 98.75, eur: 91.30, gbp: 79.60, jpy: 14825.50,
+                usd_24h_change: 3.21, market_cap: 45600000000 
+            },
+            polkadot: { 
+                usd: 6.85, eur: 6.33, gbp: 5.51, jpy: 1028.75,
+                usd_24h_change: -0.89, market_cap: 8900000000 
+            },
+            chainlink: { 
+                usd: 14.25, eur: 13.18, gbp: 11.48, jpy: 2140.50,
+                usd_24h_change: 1.75, market_cap: 8200000000 
+            },
+            litecoin: { 
+                usd: 68.90, eur: 63.70, gbp: 55.50, jpy: 10350.60,
+                usd_24h_change: 0.95, market_cap: 5100000000 
+            },
+            polygon: { 
+                usd: 0.7890, eur: 0.7300, gbp: 0.6360, jpy: 118.50,
+                usd_24h_change: 4.32, market_cap: 7800000000 
+            }
+        };
+
+        // API Functions with fallback to mock data
+        async function fetchCryptoData(coins = 'bitcoin,ethereum,cardano,solana') {
+            try {
+                // Try real API first
+                const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins}&vs_currencies=usd,eur,gbp,jpy&include_24hr_change=true&include_market_cap=true`);
+                
+                if (!response.ok) throw new Error('API request failed');
+                
+                const data = await response.json();
+                cryptoData = data;
+                return data;
+            } catch (error) {
+                console.log('Using mock data due to API limitations');
+                // Use mock data as fallback
+                const requestedCoins = coins.split(',');
+                const filteredData = {};
+                requestedCoins.forEach(coin => {
+                    if (mockCryptoData[coin]) {
+                        filteredData[coin] = mockCryptoData[coin];
+                    }
+                });
+                cryptoData = filteredData;
+                return filteredData;
+            }
+        }
+
+        async function fetchHistoricalData(coinId, days = 30) {
+            try {
+                const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`);
+                if (!response.ok) throw new Error('API request failed');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.log('Historical data not available, using mock data');
+                return null;
+            }
+        }
+
+        // Tool functions
+        function toggleTool(toolId, event) {
+			if (event) {
+				event.stopPropagation();
+			}
+    
+		const allTools = document.querySelectorAll('.tool-form');
+		const targetTool = document.getElementById(toolId);
+    
+		if (currentTool === toolId) {
+			targetTool.classList.remove('active');
+			currentTool = null;
+		} else {
+			allTools.forEach(tool => tool.classList.remove('active'));
+			targetTool.classList.add('active');
+			currentTool = toolId;
+		}
+	}
+	window.toggleTool = toggleTool;
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentTool = null;
+    
+    function toggleTool(toolId, event) {
+        event && event.stopPropagation();
+        const allTools = document.querySelectorAll('.tool-form');
+        const targetTool = document.getElementById(toolId);
+        
+        if (!targetTool) return;
+        
+        if (currentTool === toolId) {
+            targetTool.classList.remove('active');
+            currentTool = null;
+        } else {
+            allTools.forEach(tool => tool.classList.remove('active'));
+            targetTool.classList.add('active');
+            currentTool = toolId;
+            targetTool.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+    
+    window.toggleTool = toggleTool;
+	
+	<script>
+        // Global variables
+        let cryptoData = {};
+        let currentTool = null;
+
+        // Mock data for demo (bypasses CORS issues)
+        const mockCryptoData = {
+            bitcoin: { 
+                usd: 45230.50, eur: 41850.30, gbp: 36420.80, jpy: 6785430.20,
+                usd_24h_change: 2.45, market_cap: 890000000000 
+            },
+            ethereum: { 
+                usd: 2580.75, eur: 2385.60, gbp: 2076.40, jpy: 387650.90,
+                usd_24h_change: -1.23, market_cap: 310000000000 
+            },
+            cardano: { 
+                usd: 0.4520, eur: 0.4180, gbp: 0.3640, jpy: 67.85,
+                usd_24h_change: 5.67, market_cap: 15800000000 
+            },
+            solana: { 
+                usd: 98.75, eur: 91.30, gbp: 79.60, jpy: 14825.50,
+                usd_24h_change: 3.21, market_cap: 45600000000 
+            },
+            polkadot: { 
+                usd: 6.85, eur: 6.33, gbp: 5.51, jpy: 1028.75,
+                usd_24h_change: -0.89, market_cap: 8900000000 
+            },
+            chainlink: { 
+                usd: 14.25, eur: 13.18, gbp: 11.48, jpy: 2140.50,
+                usd_24h_change: 1.75, market_cap: 8200000000 
+            },
+            litecoin: { 
+                usd: 68.90, eur: 63.70, gbp: 55.50, jpy: 10350.60,
+                usd_24h_change: 0.95, market_cap: 5100000000 
+            },
+            polygon: { 
+                usd: 0.7890, eur: 0.7300, gbp: 0.6360, jpy: 118.50,
+                usd_24h_change: 4.32, market_cap: 7800000000 
+            }
+        };
+
+        // API Functions with fallback to mock data
+        async function fetchCryptoData(coins = 'bitcoin,ethereum,cardano,solana') {
+            try {
+                // Try real API first
+                const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins}&vs_currencies=usd,eur,gbp,jpy&include_24hr_change=true&include_market_cap=true`);
+                
+                if (!response.ok) throw new Error('API request failed');
+                
+                const data = await response.json();
+                cryptoData = data;
+                return data;
+            } catch (error) {
+                console.log('Using mock data due to API limitations');
+                // Use mock data as fallback
+                const requestedCoins = coins.split(',');
+                const filteredData = {};
+                requestedCoins.forEach(coin => {
+                    if (mockCryptoData[coin]) {
+                        filteredData[coin] = mockCryptoData[coin];
+                    }
+                });
+                cryptoData = filteredData;
+                return filteredData;
+            }
+        }
+
+        async function fetchHistoricalData(coinId, days = 30) {
+            try {
+                const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`);
+                if (!response.ok) throw new Error('API request failed');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.log('Historical data not available, using mock data');
+                return null;
+            }
+        }
+
+        // Tool functions
+        function toggleTool(toolId, event) {
+			if (event) {
+				event.stopPropagation();
+			}
+    
+		const allTools = document.querySelectorAll('.tool-form');
+		const targetTool = document.getElementById(toolId);
+    
+		if (currentTool === toolId) {
+			targetTool.classList.remove('active');
+			currentTool = null;
+		} else {
+			allTools.forEach(tool => tool.classList.remove('active'));
+			targetTool.classList.add('active');
+			currentTool = toolId;
+		}
+	}
+	window.toggleTool = toggleTool;
+
+        async function convertCurrency() {
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+            const amount = parseFloat(document.getElementById('convertAmount').value);
+            
+            if (!amount || amount <= 0) {
+                showResult('convertResult', 'Please enter a valid amount', 'error');
+                return;
+            }
+
+            showResult('convertResult', 'Calculating...', 'loading');
+
+            try {
+                const data = await fetchCryptoData(`${fromCurrency},${toCurrency}`);
+                
+                let fromPrice = 1, toPrice = 1;
+                
+                if (data[fromCurrency]) {
+                    fromPrice = data[fromCurrency].usd;
+                }
+                
+                if (data[toCurrency]) {
+                    toPrice = 1 / data[toCurrency].usd;
+                } else {
+                    // Handle fiat currencies
+                    const rates = { usd: 1, eur: 0.92, gbp: 0.79, jpy: 150 };
+                    toPrice = rates[toCurrency] || 1;
+                }
+                
+                const result = (amount * fromPrice * toPrice).toFixed(8);
+                const currentRate = (fromPrice * toPrice).toFixed(8);
+                
+                showResult('convertResult', `
+                    <strong>Conversion Result:</strong><br>
+                    ${amount} ${fromCurrency.toUpperCase()} = ${result} ${toCurrency.toUpperCase()}<br>
+                    Exchange Rate: 1 ${fromCurrency.toUpperCase()} = ${currentRate} ${toCurrency.toUpperCase()}<br>
+                    Updated: ${new Date().toLocaleTimeString()}
+                `);
+                
+            } catch (error) {
+                showResult('convertResult', 'Error converting currency. Please try again.', 'error');
+            }
+        }
+
+        async function calculatePortfolio() {
+            const coin = document.getElementById('portfolioCoin').value;
+            const amount = parseFloat(document.getElementById('portfolioAmount').value);
+            const purchasePrice = parseFloat(document.getElementById('purchasePrice').value);
+            
+            if (!amount || !purchasePrice || amount <= 0 || purchasePrice <= 0) {
+                showResult('portfolioResult', 'Please enter valid amounts', 'error');
+                return;
+            }
+
+            showResult('portfolioResult', 'Loading...', 'loading');
+
+            try {
+                const data = await fetchCryptoData(coin);
+                const currentPrice = data[coin].usd;
+                const currentValue = amount * currentPrice;
+                const initialValue = amount * purchasePrice;
+                const profit = currentValue - initialValue;
+                const profitPercentage = ((profit / initialValue) * 100).toFixed(2);
+                
+                const result = `
+                    <strong>Portfolio Analysis:</strong><br>
+                    Current Value: ${currentValue.toFixed(2)}<br>
+                    Initial Investment: ${initialValue.toFixed(2)}<br>
+                    Profit/Loss: ${profit.toFixed(2)} (${profitPercentage}%)<br>
+                    Current Price: ${currentPrice.toFixed(2)}
+                `;
+                
+                showResult('portfolioResult', result);
+                
+            } catch (error) {
+                showResult('portfolioResult', 'Error calculating portfolio', 'error');
+            }
+        }
+});
+	</script>
+	
     <header class="site-header">
     <div class="header-left">
         <img src="Logo (Dark Mode).jpg" alt="Crypto Tools Pro" class="site-logo">
@@ -545,183 +846,7 @@
                     <div class="result" id="portfolioResult"></div>
                 </div>
             </div>
-    <script>
-        // Global variables
-        let cryptoData = {};
-        let currentTool = null;
-
-        // Mock data for demo (bypasses CORS issues)
-        const mockCryptoData = {
-            bitcoin: { 
-                usd: 45230.50, eur: 41850.30, gbp: 36420.80, jpy: 6785430.20,
-                usd_24h_change: 2.45, market_cap: 890000000000 
-            },
-            ethereum: { 
-                usd: 2580.75, eur: 2385.60, gbp: 2076.40, jpy: 387650.90,
-                usd_24h_change: -1.23, market_cap: 310000000000 
-            },
-            cardano: { 
-                usd: 0.4520, eur: 0.4180, gbp: 0.3640, jpy: 67.85,
-                usd_24h_change: 5.67, market_cap: 15800000000 
-            },
-            solana: { 
-                usd: 98.75, eur: 91.30, gbp: 79.60, jpy: 14825.50,
-                usd_24h_change: 3.21, market_cap: 45600000000 
-            },
-            polkadot: { 
-                usd: 6.85, eur: 6.33, gbp: 5.51, jpy: 1028.75,
-                usd_24h_change: -0.89, market_cap: 8900000000 
-            },
-            chainlink: { 
-                usd: 14.25, eur: 13.18, gbp: 11.48, jpy: 2140.50,
-                usd_24h_change: 1.75, market_cap: 8200000000 
-            },
-            litecoin: { 
-                usd: 68.90, eur: 63.70, gbp: 55.50, jpy: 10350.60,
-                usd_24h_change: 0.95, market_cap: 5100000000 
-            },
-            polygon: { 
-                usd: 0.7890, eur: 0.7300, gbp: 0.6360, jpy: 118.50,
-                usd_24h_change: 4.32, market_cap: 7800000000 
-            }
-        };
-
-        // API Functions with fallback to mock data
-        async function fetchCryptoData(coins = 'bitcoin,ethereum,cardano,solana') {
-            try {
-                // Try real API first
-                const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins}&vs_currencies=usd,eur,gbp,jpy&include_24hr_change=true&include_market_cap=true`);
-                
-                if (!response.ok) throw new Error('API request failed');
-                
-                const data = await response.json();
-                cryptoData = data;
-                return data;
-            } catch (error) {
-                console.log('Using mock data due to API limitations');
-                // Use mock data as fallback
-                const requestedCoins = coins.split(',');
-                const filteredData = {};
-                requestedCoins.forEach(coin => {
-                    if (mockCryptoData[coin]) {
-                        filteredData[coin] = mockCryptoData[coin];
-                    }
-                });
-                cryptoData = filteredData;
-                return filteredData;
-            }
-        }
-
-        async function fetchHistoricalData(coinId, days = 30) {
-            try {
-                const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`);
-                if (!response.ok) throw new Error('API request failed');
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.log('Historical data not available, using mock data');
-                return null;
-            }
-        }
-
-        // Tool functions
-        function toggleTool(toolId, event) {
-			if (event) {
-				event.stopPropagation();
-			}
     
-		const allTools = document.querySelectorAll('.tool-form');
-		const targetTool = document.getElementById(toolId);
-    
-		if (currentTool === toolId) {
-			targetTool.classList.remove('active');
-			currentTool = null;
-		} else {
-			allTools.forEach(tool => tool.classList.remove('active'));
-			targetTool.classList.add('active');
-			currentTool = toolId;
-		}
-	}
-	window.toggleTool = toggleTool;
-
-        async function convertCurrency() {
-            const fromCurrency = document.getElementById('fromCurrency').value;
-            const toCurrency = document.getElementById('toCurrency').value;
-            const amount = parseFloat(document.getElementById('convertAmount').value);
-            
-            if (!amount || amount <= 0) {
-                showResult('convertResult', 'Please enter a valid amount', 'error');
-                return;
-            }
-
-            showResult('convertResult', 'Calculating...', 'loading');
-
-            try {
-                const data = await fetchCryptoData(`${fromCurrency},${toCurrency}`);
-                
-                let fromPrice = 1, toPrice = 1;
-                
-                if (data[fromCurrency]) {
-                    fromPrice = data[fromCurrency].usd;
-                }
-                
-                if (data[toCurrency]) {
-                    toPrice = 1 / data[toCurrency].usd;
-                } else {
-                    // Handle fiat currencies
-                    const rates = { usd: 1, eur: 0.92, gbp: 0.79, jpy: 150 };
-                    toPrice = rates[toCurrency] || 1;
-                }
-                
-                const result = (amount * fromPrice * toPrice).toFixed(8);
-                const currentRate = (fromPrice * toPrice).toFixed(8);
-                
-                showResult('convertResult', `
-                    <strong>Conversion Result:</strong><br>
-                    ${amount} ${fromCurrency.toUpperCase()} = ${result} ${toCurrency.toUpperCase()}<br>
-                    Exchange Rate: 1 ${fromCurrency.toUpperCase()} = ${currentRate} ${toCurrency.toUpperCase()}<br>
-                    Updated: ${new Date().toLocaleTimeString()}
-                `);
-                
-            } catch (error) {
-                showResult('convertResult', 'Error converting currency. Please try again.', 'error');
-            }
-        }
-
-        async function calculatePortfolio() {
-            const coin = document.getElementById('portfolioCoin').value;
-            const amount = parseFloat(document.getElementById('portfolioAmount').value);
-            const purchasePrice = parseFloat(document.getElementById('purchasePrice').value);
-            
-            if (!amount || !purchasePrice || amount <= 0 || purchasePrice <= 0) {
-                showResult('portfolioResult', 'Please enter valid amounts', 'error');
-                return;
-            }
-
-            showResult('portfolioResult', 'Loading...', 'loading');
-
-            try {
-                const data = await fetchCryptoData(coin);
-                const currentPrice = data[coin].usd;
-                const currentValue = amount * currentPrice;
-                const initialValue = amount * purchasePrice;
-                const profit = currentValue - initialValue;
-                const profitPercentage = ((profit / initialValue) * 100).toFixed(2);
-                
-                const result = `
-                    <strong>Portfolio Analysis:</strong><br>
-                    Current Value: ${currentValue.toFixed(2)}<br>
-                    Initial Investment: ${initialValue.toFixed(2)}<br>
-                    Profit/Loss: ${profit.toFixed(2)} (${profitPercentage}%)<br>
-                    Current Price: ${currentPrice.toFixed(2)}
-                `;
-                
-                showResult('portfolioResult', result);
-                
-            } catch (error) {
-                showResult('portfolioResult', 'Error calculating portfolio', 'error');
-            }
-        }
 
         async function calculateDCA() {
     const coin = document.getElementById('dcaCoin').value;
@@ -4336,7 +4461,7 @@ async function calculateMining() {
                         </div>
                         <div class="profit-item">
                             <span class="label">Daily Profit (Gross):</span>
-							<span class="value ${results.profit.daily >= 0 ? 'positive' : 'negative'}">
+						<span class="value ${results.profit.daily >= 0 ? 'positive' : 'negative'}">
 							<span class="value positive">
                                 ${formatCurrency(results.profit.daily)}
                             </span>
@@ -5578,31 +5703,5 @@ window.CryptoToolsAPI = {
     generateRandomPrivateKey,
     showResult
 };
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    let currentTool = null;
-    
-    function toggleTool(toolId, event) {
-        event && event.stopPropagation();
-        const allTools = document.querySelectorAll('.tool-form');
-        const targetTool = document.getElementById(toolId);
-        
-        if (!targetTool) return;
-        
-        if (currentTool === toolId) {
-            targetTool.classList.remove('active');
-            currentTool = null;
-        } else {
-            allTools.forEach(tool => tool.classList.remove('active'));
-            targetTool.classList.add('active');
-            currentTool = toolId;
-            targetTool.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-    
-    window.toggleTool = toggleTool;
-});
-</script>
 </body>
 </html>
