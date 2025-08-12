@@ -4354,7 +4354,167 @@ async function calculateMining() {
                         <div class="profit-item">
                             <span class="label">Daily Profit (Gross):</span>
                             <span class="value ${results.profit.daily >= 0 ? 'positive' :
-							SE QUEDO INCOMPLETO...
+							<span class="value ${results.profit.daily >= 0 ? 'positive' : 'negative'}">
+                                ${formatCurrency(results.profit.daily)}
+                            </span>
+                        </div>
+                        <div class="profit-item">
+                            <span class="label">Daily Profit (Net):</span>
+                            <span class="value ${results.profit.netDaily >= 0 ? 'positive' : 'negative'}">
+                                ${formatCurrency(results.profit.netDaily)}
+                            </span>
+                        </div>
+                        <div class="profit-item">
+                            <span class="label">Monthly Profit (Net):</span>
+                            <span class="value ${results.profit.netMonthly >= 0 ? 'positive' : 'negative'}">
+                                ${formatCurrency(results.profit.netMonthly)}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="efficiency-metrics">
+                    <h4>Efficiency Metrics</h4>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <span class="label">Hash per Watt:</span>
+                            <span class="value">${formatNumber(results.metrics.hashPerWatt, 4)} ${algorithm.hashRateUnit}/W</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="label">Revenue per kWh:</span>
+                            <span class="value">${formatCurrency(results.metrics.revenuePerKwh)}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="label">Hardware ROI:</span>
+                            <span class="value">
+                                ${results.metrics.breakEvenDays === Infinity ? 'Never' : `${results.metrics.breakEvenDays} days`}
+                            </span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="label">Est. Hardware Cost:</span>
+                            <span class="value">${formatCurrency(results.metrics.estimatedHardwareCost)}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                ${hardwareRecs.length > 0 ? `
+                <div class="hardware-recommendations">
+                    <h4>Recommended Hardware for ${algorithm.algorithm}</h4>
+                    <div class="hardware-grid">
+                        ${hardwareRecs.map(hw => `
+                            <div class="hardware-card">
+                                <div class="hardware-name">${hw.name}</div>
+                                <div class="hardware-specs">
+                                    <div>Hashrate: ${formatHashrate(hw.hashrate, algorithm.hashRateUnit)}</div>
+                                    <div>Power: ${hw.power}W</div>
+                                    <div>Efficiency: ${hw.efficiency} W/${algorithm.hashRateUnit}</div>
+                                    <div>Est. Price: ${formatCurrency(hw.estimatedPrice)}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div class="mining-warnings">
+                    <h4>⚠️ Important Considerations</h4>
+                    <ul>
+                        <li>Mining profitability is highly volatile and depends on coin price, network difficulty, and electricity costs</li>
+                        <li>Network difficulty adjusts regularly, which will affect your earnings</li>
+                        <li>Pool fees typically range from 1-3% of earnings</li>
+                        <li>Hardware depreciation and maintenance costs are not included</li>
+                        <li>Consider local regulations and tax implications</li>
+                        ${networkStats.estimated ? '<li><strong>Network data is estimated - actual results may vary</strong></li>' : ''}
+                        ${coin === 'ethereum' ? '<li><strong>Ethereum has moved to Proof of Stake - mining is no longer possible</strong></li>' : ''}
+                    </ul>
+                </div>
+                
+                <div class="calculation-timestamp">
+                    <small>Last updated: ${new Date().toLocaleString()}</small>
+                    ${networkStats.estimated ? '<br><small>⚠️ Using estimated network data</small>' : ''}
+                </div>
+            </div>
+        `;
+        
+        showResult('miningResult', result, 'success');
+        
+    } catch (error) {
+        console.error('Mining calculation error:', error);
+        showResult('miningResult', `Error calculating mining profitability: ${error.message}`, 'error');
+    }
+}
+
+// Update coin selection and hashrate unit
+function updateMiningCoinInfo() {
+    const coinSelect = document.getElementById('miningCoin');
+    const hashRateLabel = document.getElementById('hashRateLabel');
+    
+    if (!coinSelect || !hashRateLabel) return;
+    
+    const selectedCoin = coinSelect.value.toLowerCase().trim();
+    const algorithm = MINING_ALGORITHMS[selectedCoin];
+    
+    if (algorithm) {
+        hashRateLabel.textContent = `Hash Rate (${algorithm.hashRateUnit}):`;
+        
+        // Update placeholder based on algorithm
+        const hashRateInput = document.getElementById('hashRate');
+        if (hashRateInput) {
+            let placeholder;
+            switch (algorithm.hashRateUnit) {
+                case 'TH/s':
+                    placeholder = 'e.g., 100 (for 100 TH/s)';
+                    break;
+                case 'MH/s':
+                    placeholder = 'e.g., 500 (for 500 MH/s)';
+                    break;
+                case 'GH/s':
+                    placeholder = 'e.g., 1000 (for 1000 GH/s)';
+                    break;
+                case 'H/s':
+                    placeholder = 'e.g., 15000 (for 15000 H/s)';
+                    break;
+                case 'Sol/s':
+                    placeholder = 'e.g., 500 (for 500 Sol/s)';
+                    break;
+                default:
+                    placeholder = 'Enter your hashrate';
+            }
+            hashRateInput.placeholder = placeholder;
+        }
+    }
+}
+
+// Initialize mining calculator when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const coinSelect = document.getElementById('miningCoin');
+    
+    if (coinSelect) {
+        // Populate coin options
+        Object.keys(MINING_ALGORITHMS).forEach(coinId => {
+            const algorithm = MINING_ALGORITHMS[coinId];
+            const option = document.createElement('option');
+            option.value = coinId;
+            option.textContent = `${coinId.charAt(0).toUpperCase() + coinId.slice(1).replace('-', ' ')} (${algorithm.symbol}) - ${algorithm.algorithm}`;
+            coinSelect.appendChild(option);
+        });
+        
+        // Add event listener for coin selection change
+        coinSelect.addEventListener('change', updateMiningCoinInfo);
+        
+        // Initialize with first option
+        if (coinSelect.options.length > 1) {
+            coinSelect.selectedIndex = 1; // Skip empty option
+            updateMiningCoinInfo();
+        }
+    }
+    
+    // Add calculate button event listener
+    const calculateBtn = document.getElementById('calculateMining');
+    if (calculateBtn) {
+        calculateBtn.addEventListener('click', calculateMining);
+    }
+});
 
 // Enhanced Paper Wallet Generator with Real Data
 async function generateWallet() {
