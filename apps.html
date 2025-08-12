@@ -5598,39 +5598,62 @@ window.CryptoToolsAPI = {
 };
 
 <script>
-// Función toggleTool global
-function toggleTool(toolId, event) {
-    if (event) {
-        event.stopPropagation();
-    }
+// Esperar a que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Inicializando toggleTool...');
     
-    console.log('🚀 Abriendo herramienta:', toolId); // Para debug
+    let currentTool = null;
     
-    const allTools = document.querySelectorAll('.tool-form');
-    const targetTool = document.getElementById(toolId);
-    
-    if (!targetTool) {
-        console.error('❌ No se encontró el elemento:', toolId);
-        return;
-    }
-    
-    if (currentTool === toolId) {
-        targetTool.classList.remove('active');
-        currentTool = null;
-        console.log('🔄 Cerrando herramienta:', toolId);
-    } else {
-        allTools.forEach(tool => tool.classList.remove('active'));
-        targetTool.classList.add('active');
-        currentTool = toolId;
-        console.log('✅ Abriendo herramienta:', toolId);
+    function toggleTool(toolId, event) {
+        if (event) {
+            event.stopPropagation();
+        }
         
-        // Scroll suave hacia la herramienta
-        targetTool.scrollIntoView({ behavior: 'smooth' });
+        console.log('🚀 Abriendo herramienta:', toolId);
+        
+        const allTools = document.querySelectorAll('.tool-form');
+        const targetTool = document.getElementById(toolId);
+        
+        if (!targetTool) {
+            console.error('❌ No se encontró el elemento:', toolId);
+            return;
+        }
+        
+        if (currentTool === toolId) {
+            targetTool.classList.remove('active');
+            currentTool = null;
+            console.log('🔄 Cerrando herramienta:', toolId);
+        } else {
+            allTools.forEach(tool => tool.classList.remove('active'));
+            targetTool.classList.add('active');
+            currentTool = toolId;
+            console.log('✅ Abriendo herramienta:', toolId);
+            
+            targetTool.scrollIntoView({ behavior: 'smooth' });
+        }
     }
-}
-
-// Asegurar que esté disponible globalmente
-window.toggleTool = toggleTool;
+    
+    // Hacer la función global
+    window.toggleTool = toggleTool;
+    
+    // ADEMÁS: Agregar event listeners a todos los elementos clickeables
+    const toolHeaders = document.querySelectorAll('[onclick*="toggleTool"]');
+    console.log('📋 Encontrados', toolHeaders.length, 'elementos con toggleTool');
+    
+    toolHeaders.forEach(header => {
+        header.addEventListener('click', function(event) {
+            // Extraer el ID del onclick
+            const onclickAttr = this.getAttribute('onclick');
+            const match = onclickAttr.match(/toggleTool\('([^']+)'/);
+            if (match) {
+                const toolId = match[1];
+                toggleTool(toolId, event);
+            }
+        });
+    });
+    
+    console.log('✅ toggleTool inicializado correctamente');
+});
 </script>
 </body>
 </html>
