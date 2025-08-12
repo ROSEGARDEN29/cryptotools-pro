@@ -4336,7 +4336,7 @@ async function calculateMining() {
                         </div>
                         <div class="profit-item">
                             <span class="label">Daily Profit (Gross):</span>
-                            <span class="value ${results.profit.daily >= 0 ? 'positive' :
+							<span class="value ${results.profit.daily >= 0 ? 'positive' : 'negative'}">
 							<span class="value positive">
                                 ${formatCurrency(results.profit.daily)}
                             </span>
