@@ -644,22 +644,23 @@
 
         // Tool functions
         function toggleTool(toolId, event) {
-            if (event) {
-                event.stopPropagation();
-            }
-            
-            const allTools = document.querySelectorAll('.tool-form');
-            const targetTool = document.getElementById(toolId);
-            
-            if (currentTool === toolId) {
-                targetTool.classList.remove('active');
-                currentTool = null;
-            } else {
-                allTools.forEach(tool => tool.classList.remove('active'));
-                targetTool.classList.add('active');
-                currentTool = toolId;
-            }
-        }
+			if (event) {
+				event.stopPropagation();
+			}
+    
+		const allTools = document.querySelectorAll('.tool-form');
+		const targetTool = document.getElementById(toolId);
+    
+		if (currentTool === toolId) {
+			targetTool.classList.remove('active');
+			currentTool = null;
+		} else {
+			allTools.forEach(tool => tool.classList.remove('active'));
+			targetTool.classList.add('active');
+			currentTool = toolId;
+		}
+	}
+	window.toggleTool = toggleTool;
 
         async function convertCurrency() {
             const fromCurrency = document.getElementById('fromCurrency').value;
