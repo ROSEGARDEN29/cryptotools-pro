@@ -5597,5 +5597,40 @@ window.CryptoToolsAPI = {
     showResult
 };
 
+<script>
+// Función toggleTool global
+function toggleTool(toolId, event) {
+    if (event) {
+        event.stopPropagation();
+    }
+    
+    console.log('🚀 Abriendo herramienta:', toolId); // Para debug
+    
+    const allTools = document.querySelectorAll('.tool-form');
+    const targetTool = document.getElementById(toolId);
+    
+    if (!targetTool) {
+        console.error('❌ No se encontró el elemento:', toolId);
+        return;
+    }
+    
+    if (currentTool === toolId) {
+        targetTool.classList.remove('active');
+        currentTool = null;
+        console.log('🔄 Cerrando herramienta:', toolId);
+    } else {
+        allTools.forEach(tool => tool.classList.remove('active'));
+        targetTool.classList.add('active');
+        currentTool = toolId;
+        console.log('✅ Abriendo herramienta:', toolId);
+        
+        // Scroll suave hacia la herramienta
+        targetTool.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Asegurar que esté disponible globalmente
+window.toggleTool = toggleTool;
+</script>
 </body>
 </html>
