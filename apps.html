@@ -168,46 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     window.toggleTool = toggleTool;
-	
-        // Global variables
-        let cryptoData = {};
-        let currentTool = null;
-
-        // Mock data for demo (bypasses CORS issues)
-        const mockCryptoData = {
-            bitcoin: { 
-                usd: 45230.50, eur: 41850.30, gbp: 36420.80, jpy: 6785430.20,
-                usd_24h_change: 2.45, market_cap: 890000000000 
-            },
-            ethereum: { 
-                usd: 2580.75, eur: 2385.60, gbp: 2076.40, jpy: 387650.90,
-                usd_24h_change: -1.23, market_cap: 310000000000 
-            },
-            cardano: { 
-                usd: 0.4520, eur: 0.4180, gbp: 0.3640, jpy: 67.85,
-                usd_24h_change: 5.67, market_cap: 15800000000 
-            },
-            solana: { 
-                usd: 98.75, eur: 91.30, gbp: 79.60, jpy: 14825.50,
-                usd_24h_change: 3.21, market_cap: 45600000000 
-            },
-            polkadot: { 
-                usd: 6.85, eur: 6.33, gbp: 5.51, jpy: 1028.75,
-                usd_24h_change: -0.89, market_cap: 8900000000 
-            },
-            chainlink: { 
-                usd: 14.25, eur: 13.18, gbp: 11.48, jpy: 2140.50,
-                usd_24h_change: 1.75, market_cap: 8200000000 
-            },
-            litecoin: { 
-                usd: 68.90, eur: 63.70, gbp: 55.50, jpy: 10350.60,
-                usd_24h_change: 0.95, market_cap: 5100000000 
-            },
-            polygon: { 
-                usd: 0.7890, eur: 0.7300, gbp: 0.6360, jpy: 118.50,
-                usd_24h_change: 4.32, market_cap: 7800000000 
-            }
-        };
 
         // API Functions with fallback to mock data
         async function fetchCryptoData(coins = 'bitcoin,ethereum,cardano,solana') {
