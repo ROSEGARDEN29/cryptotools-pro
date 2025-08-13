@@ -306,251 +306,156 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 });
-        async function calculateDCA() {
-    const coin = document.getElementById('dcaCoin').value;
-    const amount = parseFloat(document.getElementById('dcaAmount').value);
-    const frequency = document.getElementById('dcaFrequency').value;
-    const period = parseInt(document.getElementById('dcaPeriod').value);
-    
-    if (!amount || !period || amount <= 0 || period <= 0) {
-        showResult('dcaResult', 'Please enter valid values', 'error');
-        return;
-    }
-
-    showResult('dcaResult', 'Loading real historical data from Binance...', 'loading');
-
-    try {
-        // Mapear coins a símbolos de Binance
-        const coinSymbols = {
-            'bitcoin': 'BTCUSDT',
-            'ethereum': 'ETHUSDT', 
-            'cardano': 'ADAUSDT',
-            'solana': 'SOLUSDT',
-            'binancecoin': 'BNBUSDT',
-            'chainlink': 'LINKUSDT',
-            'polkadot': 'DOTUSDT',
-            'litecoin': 'LTCUSDT',
-            'avalanche-2': 'AVAXUSDT',
-            'polygon': 'MATICUSDT'
-        };
-        
-        const symbol = coinSymbols[coin];
-        if (!symbol) {
-            throw new Error(`${coin} not supported with Binance API. Available: Bitcoin, Ethereum, Cardano, Solana, BNB, Chainlink, Polkadot, Litecoin, Avalanche, Polygon`);
-        }
-        
-        // Calcular fechas para el período especificado
-        const daysBack = period * 30;
-        const endTime = Date.now();
-        const startTime = endTime - (daysBack * 24 * 60 * 60 * 1000);
-        
-        // Obtener datos históricos REALES de Binance (GRATIS)
-        const historicalResponse = await fetch(
-            `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1d&startTime=${startTime}&endTime=${endTime}&limit=1000`
-        );
-        
-        if (!historicalResponse.ok) {
-            throw new Error(`Binance API Error: ${historicalResponse.status} ${historicalResponse.statusText}`);
-        }
-        
-        const klineData = await historicalResponse.json();
-        
-        if (!klineData || klineData.length === 0) {
-            throw new Error('No historical data available from Binance');
-        }
-        
-        // Obtener precio actual REAL de Binance
-        const currentPriceResponse = await fetch(
-            `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
-        );
-        const currentPriceData = await currentPriceResponse.json();
-        const currentPrice = parseFloat(currentPriceData.price);
-        
-        // Convertir datos de Binance al formato de precios con timestamps
-        const historicalPrices = klineData.map(kline => [
-            parseInt(kline[0]), // timestamp en milliseconds
-            parseFloat(kline[4]) // precio de cierre
-        ]);
-        
-        // Procesar datos según la frecuencia (manteniendo tu lógica original)
-        const purchases = [];
-        let totalInvestment = 0;
-        let totalCoins = 0;
-        let purchaseCount = 0;
-        
-        // Determinar intervalo de compras en días (tu lógica original)
-        let intervalDays;
-        switch(frequency) {
-            case 'daily':
-                intervalDays = 1;
-                break;
-            case 'weekly':
-                intervalDays = 7;
-                break;
-            case 'monthly':
-                intervalDays = 30;
-                break;
-        }
-        
-        // Simular compras DCA con precios históricos REALES (tu lógica mejorada)
-        const startTimeMs = historicalPrices[0][0];
-        const endTimeMs = historicalPrices[historicalPrices.length - 1][0];
-        
-        // Calcular límite máximo de compras según período y frecuencia
-        const maxPurchases = period * (frequency === 'daily' ? 30 : frequency === 'weekly' ? 4 : 1);
-        
-        for (let time = startTimeMs; time <= endTimeMs && purchaseCount < maxPurchases; time += intervalDays * 24 * 60 * 60 * 1000) {
-            // Encontrar el precio más cercano a esta fecha (tu algoritmo original mejorado)
-            let closestPrice = null;
-            let minTimeDiff = Infinity;
+async function calculateDCA() {
+            const coin = document.getElementById('dcaCoin').value;
+            const amount = parseFloat(document.getElementById('dcaAmount').value);
+            const frequency = document.getElementById('dcaFrequency').value;
+            const period = parseInt(document.getElementById('dcaPeriod').value);
             
-            for (const pricePoint of historicalPrices) {
-                const timeDiff = Math.abs(pricePoint[0] - time);
-                if (timeDiff < minTimeDiff && timeDiff <= (intervalDays * 24 * 60 * 60 * 1000 / 2)) {
-                    minTimeDiff = timeDiff;
-                    closestPrice = pricePoint;
+            if (!amount || !period || amount <= 0 || period <= 0) {
+                showResult('dcaResult', 'Please enter valid values', 'error');
+                return;
+            }
+
+            showResult('dcaResult', 'Loading real historical data...', 'loading');
+
+                try {
+                // Mapear coins a símbolos de Binance
+                const coinSymbols = {
+                    'bitcoin': 'BTCUSDT',
+                    'ethereum': 'ETHUSDT', 
+                    'cardano': 'ADAUSDT',
+                    'solana': 'SOLUSDT',
+                    'binancecoin': 'BNBUSDT',
+                    'chainlink': 'LINKUSDT',
+                    'polkadot': 'DOTUSDT',
+                    'litecoin': 'LTCUSDT',
+                    'avalanche-2': 'AVAXUSDT',
+                    'polygon': 'MATICUSDT'
+                };
+                
+                const symbol = coinSymbols[coin];
+                if (!symbol) {
+                    throw new Error(`${coin} not supported with Binance API`);
                 }
-            }
-            
-            if (closestPrice) {
-                const purchasePrice = closestPrice[1];
-                const coinsAcquired = amount / purchasePrice;
                 
-                purchases.push({
-                    date: new Date(time),
-                    price: purchasePrice,
-                    amount: amount,
-                    coins: coinsAcquired,
-                    timestamp: time
-                });
+                // Calcular fechas para el período especificado
+                const daysBack = period * 30;
+                const endTime = Date.now();
+                const startTime = endTime - (daysBack * 24 * 60 * 60 * 1000);
                 
-                totalInvestment += amount;
-                totalCoins += coinsAcquired;
-                purchaseCount++;
-            }
-        }
-        
-        // Validar que se hicieron compras
-        if (purchaseCount === 0) {
-            throw new Error('No purchase data could be calculated for the specified period');
-        }
-        
-        // Calcular métricas (tu lógica original)
-        const avgPrice = totalInvestment / totalCoins;
-        const currentValue = totalCoins * currentPrice;
-        const profit = currentValue - totalInvestment;
-        const roi = ((profit / totalInvestment) * 100);
-        
-        // Calcular métricas adicionales mejoradas
-        const bestPurchase = purchases.reduce((best, purchase) => 
-            purchase.price < best.price ? purchase : best
-        );
-        const worstPurchase = purchases.reduce((worst, purchase) => 
-            purchase.price > worst.price ? purchase : worst
-        );
-        
-        const priceVolatility = purchases.length > 1 ? 
-            (Math.max(...purchases.map(p => p.price)) - Math.min(...purchases.map(p => p.price))) / avgPrice * 100 : 0;
-        
-        // Formatear resultado (mejorado manteniendo tu estilo)
-        const result = `
-            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 12px; margin-top: 15px; border: 1px solid #dee2e6; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                    <span style="font-size: 20px; margin-right: 10px;">📊</span>
-                    <strong style="color: #2c3e50; font-size: 18px;">DCA Strategy Results - Real Binance Data</strong>
-                </div>
+                // Obtener datos históricos REALES de Binance (GRATIS)
+                const historicalResponse = await fetch(
+                    `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1d&startTime=${startTime}&endTime=${endTime}&limit=1000`
+                );
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #3498db;">
-                        <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 4px;">TOTAL INVESTMENT</div>
-                        <div style="font-size: 16px; font-weight: bold; color: #2c3e50;">
-                            $${totalInvestment.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                        </div>
-                    </div>
+                if (!historicalResponse.ok) {
+                    throw new Error(`Binance API Error: ${historicalResponse.status}`);
+                }
+                
+                const klineData = await historicalResponse.json();
+                
+                if (!klineData || klineData.length === 0) {
+                    throw new Error('No historical data available');
+                }
+                
+                // Obtener precio actual REAL de Binance
+                const currentPriceResponse = await fetch(
+                    `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
+                );
+                const currentPriceData = await currentPriceResponse.json();
+                const currentPrice = parseFloat(currentPriceData.price);
+                
+                // Convertir datos de Binance al formato de precios
+                const historicalPrices = klineData.map(kline => [
+                    parseInt(kline[0]), // timestamp
+                    parseFloat(kline[4]) // precio de cierre
+                ]);
+                
+                // Procesar datos según la frecuencia
+                const purchases = [];
+                let totalInvestment = 0;
+                let totalCoins = 0;
+                let purchaseCount = 0;
+                
+                // Determinar intervalo de compras en días
+                let intervalDays;
+                switch(frequency) {
+                    case 'daily':
+                        intervalDays = 1;
+                        break;
+                    case 'weekly':
+                        intervalDays = 7;
+                        break;
+                    case 'monthly':
+                        intervalDays = 30;
+                        break;
+                }
+                
+                // Simular compras DCA con precios históricos reales
+                const startTimeMs = historicalPrices[0][0];
+                const endTimeMs = historicalPrices[historicalPrices.length - 1][0];
+                const maxPurchases = period * (frequency === 'daily' ? 30 : frequency === 'weekly' ? 4 : 1);
+                
+                for (let time = startTimeMs; time <= endTimeMs && purchaseCount < maxPurchases; time += intervalDays * 24 * 60 * 60 * 1000) {
+                    // Encontrar el precio más cercano a esta fecha
+                    const closestPrice = historicalPrices.find(price => 
+                        Math.abs(price[0] - time) <= (intervalDays * 24 * 60 * 60 * 1000 / 2)
+                    );
                     
-                    <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #9b59b6;">
-                        <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 4px;">COINS ACQUIRED</div>
-                        <div style="font-size: 16px; font-weight: bold; color: #2c3e50;">
-                            ${totalCoins.toFixed(6)} ${coin.toUpperCase()}
-                        </div>
-                    </div>
-                </div>
+                    if (closestPrice) {
+                        const purchasePrice = closestPrice[1];
+                        const coinsAcquired = amount / purchasePrice;
+                        
+                        purchases.push({
+                            date: new Date(time),
+                            price: purchasePrice,
+                            amount: amount,
+                            coins: coinsAcquired
+                        });
+                        
+                        totalInvestment += amount;
+                        totalCoins += coinsAcquired;
+                        purchaseCount++;
+                    }
+                }
                 
-                <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid ${currentValue > totalInvestment ? '#27ae60' : '#e74c3c'};">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div>
-                            <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 4px;">CURRENT VALUE</div>
-                            <div style="font-size: 18px; font-weight: bold; color: ${currentValue > totalInvestment ? '#27ae60' : '#e74c3c'};">
-                                $${currentValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                // Calcular métricas
+                const avgPrice = totalInvestment / totalCoins;
+                const currentValue = totalCoins * currentPrice;
+                const profit = currentValue - totalInvestment;
+                const roi = ((profit / totalInvestment) * 100);
+                
+                // Formatear resultado
+                const result = `
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <strong style="color: #2c3e50; font-size: 16px;">📊 DCA Strategy Results (Real Binance Data):</strong><br><br>
+                        <div style="display: grid; gap: 8px;">
+                            <div><strong>Total Investment:</strong> ${totalInvestment.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                            <div><strong>Total Coins Acquired:</strong> ${totalCoins.toFixed(6)}</div>
+                            <div style="color: ${currentValue > totalInvestment ? '#27ae60' : '#e74c3c'};">
+                                <strong>Current Value:</strong> ${currentValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                             </div>
-                        </div>
-                        <div>
-                            <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 4px;">PROFIT/LOSS</div>
-                            <div style="font-size: 18px; font-weight: bold; color: ${profit > 0 ? '#27ae60' : '#e74c3c'};">
-                                ${profit > 0 ? '+' : ''}$${profit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} 
-                                <span style="font-size: 14px;">(${roi > 0 ? '+' : ''}${roi.toFixed(2)}%)</span>
+                            <div style="color: ${profit > 0 ? '#27ae60' : '#e74c3c'}; font-size: 16px;">
+                                <strong>Profit/Loss:</strong> ${profit > 0 ? '+' : ''}${profit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${roi > 0 ? '+' : ''}${roi.toFixed(2)}%)
                             </div>
+                            <div><strong>Average Buy Price:</strong> ${avgPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                            <div><strong>Current Price:</strong> ${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                            <div><strong>Total Purchases:</strong> ${purchaseCount}</div>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 12px; color: #27ae60;">
+                            <em>✓ Real historical data from Binance API</em>
                         </div>
                     </div>
-                </div>
+                `;
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-                    <div style="background: white; padding: 10px; border-radius: 6px; text-align: center;">
-                        <div style="font-size: 11px; color: #7f8c8d; margin-bottom: 2px;">AVG BUY PRICE</div>
-                        <div style="font-size: 14px; font-weight: bold; color: #2c3e50;">
-                            $${avgPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                        </div>
-                    </div>
-                    <div style="background: white; padding: 10px; border-radius: 6px; text-align: center;">
-                        <div style="font-size: 11px; color: #7f8c8d; margin-bottom: 2px;">CURRENT PRICE</div>
-                        <div style="font-size: 14px; font-weight: bold; color: #2c3e50;">
-                            $${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                        </div>
-                    </div>
-                    <div style="background: white; padding: 10px; border-radius: 6px; text-align: center;">
-                        <div style="font-size: 11px; color: #7f8c8d; margin-bottom: 2px;">PURCHASES</div>
-                        <div style="font-size: 14px; font-weight: bold; color: #2c3e50;">
-                            ${purchaseCount}
-                        </div>
-                    </div>
-                </div>
+                showResult('dcaResult', result);
                 
-                <div style="background: white; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 13px;">
-                        <div>
-                            <strong style="color: #27ae60;">Best Purchase:</strong><br>
-                            $${bestPurchase.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} 
-                            <span style="color: #7f8c8d;">on ${bestPurchase.date.toLocaleDateString()}</span>
-                        </div>
-                        <div>
-                            <strong style="color: #e74c3c;">Highest Purchase:</strong><br>
-                            $${worstPurchase.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} 
-                            <span style="color: #7f8c8d;">on ${worstPurchase.date.toLocaleDateString()}</span>
-                        </div>
-                    </div>
-                    <div style="margin-top: 8px; font-size: 12px; color: #7f8c8d;">
-                        <strong>Price Volatility During Period:</strong> ${priceVolatility.toFixed(2)}%
-                    </div>
-                </div>
-                
-                <div style="background: rgba(39, 174, 96, 0.1); padding: 10px; border-radius: 6px; border: 1px solid rgba(39, 174, 96, 0.2);">
-                    <div style="font-size: 11px; color: #27ae60; font-weight: bold; margin-bottom: 3px;">
-                        ✓ REAL-TIME DATA SOURCE
-                    </div>
-                    <div style="font-size: 11px; color: #2c3e50;">
-                        Historical prices from Binance API • Current price updated live • ${frequency.charAt(0).toUpperCase() + frequency.slice(1)} ${coin.toUpperCase()} purchases over ${period} month${period > 1 ? 's' : ''}
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        showResult('dcaResult', result);
-        
-    } catch (error) {
-        console.error('DCA Calculation Error:', error);
-        showResult('dcaResult', `Error calculating DCA: ${error.message}. Please try again.`, 'error');
-    }
-}
+            } catch (error) {
+                console.error('DCA Calculation Error:', error);
+                showResult('dcaResult', `Error calculating DCA: ${error.message}. Please try again.`, 'error');
+            }
+        }
 
         async function calculateBitcoin() {
     const btcAmount = parseFloat(document.getElementById('btcAmount').value);
