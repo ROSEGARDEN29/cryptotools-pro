@@ -306,506 +306,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 });
-	</script>
-	
-    <header class="site-header">
-    <div class="header-left">
-        <img src="Logo (Dark Mode).jpg" alt="Crypto Tools Pro" class="site-logo">
-        <h1>Crypto Tools Pro</h1>
-    </div>
-    <div class="header-right">
-        <nav>
-            <ul class="site-nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="apps.html">Apps</a></li>
-                <li><a href="news.html">News</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </nav>
-        <div class="header-accent">
-            <span class="status-dot"></span>
-            <span>Live Market Data</span>
-        </div>
-    </div>
-</header>
-<div class="tool-header" data-tool="apps">
-   <div class="header-content">
-       <div class="header-left">
-           <span class="tool-icon">🚀</span>
-           <div class="title-section">
-               <h3 class="tool-title">APPS</h3>
-               <span class="tool-subtitle">Professional Trading & Analytics Suite</span>
-           </div>
-       </div>
-       <div class="header-right">
-           <span class="apps-count">12+ Tools</span>
-           <div class="status-indicator">
-               <span class="status-dot"></span>
-               <span class="status-text">Live Data</span>
-           </div>
-       </div>
-   </div>
-</div>
-<p class="tool-description">
-   <span class="highlight">Real-time market data</span> • Portfolio tracking • Technical analysis • Risk management • Performance metrics
-</p>
-
-<div class="tool-form" id="apps">
-   <!-- Portfolio Tracker Tool -->
-   <div class="app-module">
-       <div class="module-header">
-           <span class="module-icon">📊</span>
-           <h4 class="module-title">Portfolio Tracker</h4>
-           <span class="module-badge">Premium</span>
-       </div>
-       
-       <div class="form-grid">
-           <div class="form-group">
-               <label>Select Cryptocurrency:</label>
-               <select id="portfolioCoin" class="enhanced-select">
-                   <option value="bitcoin">Bitcoin (BTC) - $67,420</option>
-                   <option value="ethereum">Ethereum (ETH) - $3,240</option>
-                   <option value="solana">Solana (SOL) - $158</option>
-                   <option value="cardano">Cardano (ADA) - $0.48</option>
-                   <option value="chainlink">Chainlink (LINK) - $14.20</option>
-                   <option value="polygon">Polygon (MATIC) - $0.72</option>
-               </select>
-           </div>
-           
-           <div class="form-group">
-               <label>Holdings Amount:</label>
-               <div class="input-wrapper">
-                   <input type="number" id="portfolioAmount" placeholder="0.00000000" step="any" class="precision-input">
-                   <span class="input-suffix">Units</span>
-               </div>
-           </div>
-           
-           <div class="form-group">
-               <label>Average Buy Price (USD):</label>
-               <div class="input-wrapper">
-                   <span class="input-prefix">$</span>
-                   <input type="number" id="purchasePrice" placeholder="0.00" step="0.01" class="price-input">
-               </div>
-           </div>
-           
-           <div class="form-group">
-               <label>Investment Date:</label>
-               <input type="date" id="investmentDate" class="date-input">
-           </div>
-       </div>
-       
-       <div class="action-buttons">
-           <button class="btn btn-primary" data-action="calculatePortfolio">
-               <span class="btn-icon">📈</span>
-               Analyze Portfolio
-           </button>
-           <button class="btn btn-secondary" data-action="exportData">
-               <span class="btn-icon">📤</span>
-               Export Data
-           </button>
-       </div>
-       
-       <div class="result enhanced-result" id="portfolioResult">
-           <div class="result-placeholder">
-               <span class="placeholder-icon">💰</span>
-               <p>Enter your portfolio details to see real-time performance analysis</p>
-           </div>
-       </div>
-   </div>
-</div>
-
-            <!-- DCA Calculator -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="dca">
-                    <span class="tool-icon">💰</span>
-                    <h3 class="tool-title">DCA Calculator</h3>
-                </div>
-                <p class="tool-description">Calculate Dollar Cost Averaging returns for any cryptocurrency</p>
-                <div class="tool-form" id="dca">
-                    <div class="form-group">
-                        <label>Cryptocurrency:</label>
-                        <select id="dcaCoin">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                            <option value="cardano">Cardano (ADA)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Investment Amount (USD):</label>
-                        <input type="number" id="dcaAmount" placeholder="100" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Frequency:</label>
-                        <select id="dcaFrequency">
-                            <option value="weekly">Weekly</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="daily">Daily</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Time Period (months):</label>
-                        <input type="number" id="dcaPeriod" placeholder="12" min="1" max="60">
-                    </div>
-                    <button class="btn" data-action="calculateDCA">Calculate DCA</button>
-                    <div class="result" id="dcaResult"></div>
-                </div>
-            </div>
-
-            <!-- Bitcoin Calculator -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="bitcoin">
-                    <span class="tool-icon">₿</span>
-                    <h3 class="tool-title">Bitcoin Calculator</h3>
-                </div>
-                <p class="tool-description">Advanced Bitcoin calculations and conversions</p>
-                <div class="tool-form" id="bitcoin">
-                    <div class="form-group">
-                        <label>Bitcoin Amount:</label>
-                        <input type="number" id="btcAmount" placeholder="1.0" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Target Currency:</label>
-                        <select id="btcCurrency">
-                            <option value="usd">USD</option>
-                            <option value="eur">EUR</option>
-                            <option value="gbp">GBP</option>
-                            <option value="jpy">JPY</option>
-                        </select>
-                    </div>
-                    <button class="btn" data-action="calculateBitcoin">Calculate Value</button>
-                    <div class="result" id="bitcoinResult"></div>
-                </div>
-            </div>
-
-            <!-- Exchange Comparator -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="exchange">
-                    <span class="tool-icon">⚖️</span>
-                    <h3 class="tool-title">Exchange Comparator</h3>
-                </div>
-                <p class="tool-description">Compare cryptocurrency prices across different exchanges</p>
-                <div class="tool-form" id="exchange">
-                    <div class="form-group">
-                        <label>Cryptocurrency:</label>
-                        <select id="exchangeCoin">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                            <option value="cardano">Cardano (ADA)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Amount:</label>
-                        <input type="number" id="exchangeAmount" placeholder="1.0" step="any">
-                    </div>
-                    <button class="btn" data-action="compareExchanges">Compare Prices</button>
-                    <div class="result" id="exchangeResult"></div>
-                </div>
-            </div>
-
-            <!-- Price Alerts -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="alerts">
-                    <span class="tool-icon">🔔</span>
-                    <h3 class="tool-title">Price Alerts</h3>
-                </div>
-                <p class="tool-description">Set price alerts for your favorite cryptocurrencies</p>
-                <div class="tool-form" id="alerts">
-                    <div class="form-group">
-                        <label>Cryptocurrency:</label>
-                        <select id="alertCoin">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                            <option value="cardano">Cardano (ADA)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Target Price (USD):</label>
-                        <input type="number" id="targetPrice" placeholder="50000" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Alert Type:</label>
-                        <select id="alertType">
-                            <option value="above">Above Target</option>
-                            <option value="below">Below Target</option>
-                        </select>
-                    </div>
-                    <button class="btn" data-action="setAlert">Set Alert</button>
-                    <div class="result" id="alertResult"></div>
-                </div>
-            </div>
-
-            <!-- Fear & Greed Calculator -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="feargreed">
-                    <span class="tool-icon">😱</span>
-                    <h3 class="tool-title">Fear & Greed Calculator</h3>
-                </div>
-                <p class="tool-description">Analyze market sentiment with Fear & Greed Index</p>
-                <div class="tool-form" id="feargreed">
-                    <div class="form-group">
-                        <label>Market Cap Change (%):</label>
-                        <input type="number" id="marketCapChange" placeholder="5.2" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Volume Change (%):</label>
-                        <input type="number" id="volumeChange" placeholder="12.5" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Social Media Mentions:</label>
-                        <input type="number" id="socialMentions" placeholder="1000" min="0">
-                    </div>
-                    <button class="btn" data-action="calculateFearGreed">Calculate Index</button>
-                    <div class="result" id="feargreedResult"></div>
-                </div>
-            </div>
-
-            <!-- Tax Calculator -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="tax">
-                    <span class="tool-icon">🧾</span>
-                    <h3 class="tool-title">Tax Calculator</h3>
-                </div>
-                <p class="tool-description">Calculate crypto taxes and capital gains</p>
-                <div class="tool-form" id="tax">
-                    <div class="form-group">
-                        <label>Purchase Price (USD):</label>
-                        <input type="number" id="taxPurchasePrice" placeholder="30000" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Sale Price (USD):</label>
-                        <input type="number" id="taxSalePrice" placeholder="35000" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Amount:</label>
-                        <input type="number" id="taxAmount" placeholder="1.0" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Tax Rate (%):</label>
-                        <input type="number" id="taxRate" placeholder="20" min="0" max="100">
-                    </div>
-                    <button class="btn" data-action="calculateTax">Calculate Tax</button>
-                    <div class="result" id="taxResult"></div>
-                </div>
-            </div>
-
-            <!-- Technical Analysis -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="technical">
-                    <span class="tool-icon">📈</span>
-                    <h3 class="tool-title">Technical Analysis</h3>
-                </div>
-                <p class="tool-description">Advanced technical analysis indicators and signals</p>
-                <div class="tool-form" id="technical">
-                    <div class="form-group">
-                        <label>Cryptocurrency:</label>
-                        <select id="technicalCoin">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                            <option value="cardano">Cardano (ADA)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Timeframe:</label>
-                        <select id="timeframe">
-                            <option value="1h">1 Hour</option>
-                            <option value="4h">4 Hours</option>
-                            <option value="1d">1 Day</option>
-                            <option value="1w">1 Week</option>
-                        </select>
-                    </div>
-                    <button class="btn" data-action="analyzeTechnical">Analyze</button>
-                    <div class="result" id="technicalResult"></div>
-                </div>
-            </div>
-
-            <!-- Trading Simulator -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="trading">
-                    <span class="tool-icon">🎮</span>
-                    <h3 class="tool-title">Trading Simulator</h3>
-                </div>
-                <p class="tool-description">Practice trading with virtual money</p>
-                <div class="tool-form" id="trading">
-                    <div class="form-group">
-                        <label>Virtual Balance (USD):</label>
-                        <input type="number" id="virtualBalance" placeholder="10000" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Cryptocurrency:</label>
-                        <select id="tradingCoin">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                            <option value="cardano">Cardano (ADA)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Trade Type:</label>
-                        <select id="tradeType">
-                            <option value="buy">Buy</option>
-                            <option value="sell">Sell</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Amount (USD):</label>
-                        <input type="number" id="tradeAmount" placeholder="1000" step="any">
-                    </div>
-                    <button class="btn" data-action="simulateTrade">Execute Trade</button>
-                    <div class="result" id="tradingResult"></div>
-                </div>
-            </div>
-
-            <!-- Mining Calculator -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="mining">
-                    <span class="tool-icon">⛏️</span>
-                    <h3 class="tool-title">Mining Calculator</h3>
-                </div>
-                <p class="tool-description">Calculate mining profitability and returns</p>
-                <div class="tool-form" id="mining">
-                    <div class="form-group">
-                        <label>Hash Rate (MH/s):</label>
-                        <input type="number" id="hashRate" placeholder="100" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Power Consumption (W):</label>
-                        <input type="number" id="powerConsumption" placeholder="3000" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Electricity Cost ($/kWh):</label>
-                        <input type="number" id="electricityCost" placeholder="0.12" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Cryptocurrency:</label>
-                        <select id="miningCoin">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                        </select>
-                    </div>
-                    <button class="btn" data-action="calculateMining">Calculate Profitability</button>
-                    <div class="result" id="miningResult"></div>
-                </div>
-            </div>
-
-            <!-- Paper Wallet Generator -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="paperwallet">
-                    <span class="tool-icon">📄</span>
-                    <h3 class="tool-title">Paper Wallet Generator</h3>
-                </div>
-                <p class="tool-description">Generate secure paper wallets for offline storage</p>
-                <div class="tool-form" id="paperwallet">
-                    <div class="form-group">
-                        <label>Cryptocurrency:</label>
-                        <select id="walletCoin">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                            <option value="litecoin">Litecoin (LTC)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Number of Wallets:</label>
-                        <input type="number" id="walletCount" placeholder="1" min="1" max="10">
-                    </div>
-                    <button class="btn" data-action="generateWallet">Generate Wallet</button>
-                    <div class="result" id="paperwalletResult"></div>
-                </div>
-            </div>
-        </div>
-    <header>
-        <nav class="container">
-            <a href="../index.html" class="logo">🚀 CryptoTools Pro</a>
-            <ul class="nav-menu">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="index.html">Tools</a></li>
-                <li><a href="../news/">News</a></li>
-                <li><a href="../guides/">Guides</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="container">
-        <a href="../index.html" class="back-btn">← Back to Home</a>
-        
-        <div class="page-title">
-            <h1>Professional Crypto Tools</h1>
-            <p>Complete suite of calculators, converters and analysis tools</p>
-        </div>
-
-        <!-- Price Ticker -->
-        <div class="price-ticker">
-            <div class="ticker-content" id="priceTicker">
-                <!-- Loaded dynamically -->
-            </div>
-        </div>
-
-        <div class="tools-grid">
-            <!-- Converter Tool -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="converter">
-                    <span class="tool-icon">🔄</span>
-                    <h3 class="tool-title">Crypto Converter</h3>
-                </div>
-                <p class="tool-description">Convert between different cryptocurrencies and fiat currencies with real-time rates</p>
-                <div class="tool-form" id="converter">
-                    <div class="form-group">
-                        <label>From Currency:</label>
-                        <select id="fromCurrency">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                            <option value="cardano">Cardano (ADA)</option>
-                            <option value="solana">Solana (SOL)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>To Currency:</label>
-                        <select id="toCurrency">
-                            <option value="usd">USD</option>
-                            <option value="eur">EUR</option>
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Amount:</label>
-                        <input type="number" id="convertAmount" placeholder="Enter amount" step="any">
-                    </div>
-                    <button class="btn" data-action="convertCurrency">Convert</button>
-                    <div class="result" id="convertResult"></div>
-                </div>
-            </div>
-
-            <!-- Portfolio Tracker -->
-            <div class="tool-card">
-                <div class="tool-header" data-tool="portfolio">
-                    <span class="tool-icon">📊</span>
-                    <h3 class="tool-title">Portfolio Tracker</h3>
-                </div>
-                <p class="tool-description">Track your cryptocurrency portfolio value and performance</p>
-                <div class="tool-form" id="portfolio">
-                    <div class="form-group">
-                        <label>Cryptocurrency:</label>
-                        <select id="portfolioCoin">
-                            <option value="bitcoin">Bitcoin (BTC)</option>
-                            <option value="ethereum">Ethereum (ETH)</option>
-                            <option value="cardano">Cardano (ADA)</option>
-                            <option value="solana">Solana (SOL)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Amount Held:</label>
-                        <input type="number" id="portfolioAmount" placeholder="0.0" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Purchase Price (USD):</label>
-                        <input type="number" id="purchasePrice" placeholder="0.0" step="any">
-                    </div>
-                    <button class="btn" data-action="calculatePortfolio">Calculate Portfolio</button>
-                    <div class="result" id="portfolioResult"></div>
-                </div>
-            </div>
-    
-
         async function calculateDCA() {
     const coin = document.getElementById('dcaCoin').value;
     const amount = parseFloat(document.getElementById('dcaAmount').value);
@@ -5643,5 +5143,505 @@ window.CryptoToolsAPI = {
     generateRandomPrivateKey,
     showResult
 };
+	</script>
+	
+    <header class="site-header">
+    <div class="header-left">
+        <img src="Logo (Dark Mode).jpg" alt="Crypto Tools Pro" class="site-logo">
+        <h1>Crypto Tools Pro</h1>
+    </div>
+    <div class="header-right">
+        <nav>
+            <ul class="site-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="apps.html">Apps</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+        <div class="header-accent">
+            <span class="status-dot"></span>
+            <span>Live Market Data</span>
+        </div>
+    </div>
+</header>
+<div class="tool-header" data-tool="apps">
+   <div class="header-content">
+       <div class="header-left">
+           <span class="tool-icon">🚀</span>
+           <div class="title-section">
+               <h3 class="tool-title">APPS</h3>
+               <span class="tool-subtitle">Professional Trading & Analytics Suite</span>
+           </div>
+       </div>
+       <div class="header-right">
+           <span class="apps-count">12+ Tools</span>
+           <div class="status-indicator">
+               <span class="status-dot"></span>
+               <span class="status-text">Live Data</span>
+           </div>
+       </div>
+   </div>
+</div>
+<p class="tool-description">
+   <span class="highlight">Real-time market data</span> • Portfolio tracking • Technical analysis • Risk management • Performance metrics
+</p>
+
+<div class="tool-form" id="apps">
+   <!-- Portfolio Tracker Tool -->
+   <div class="app-module">
+       <div class="module-header">
+           <span class="module-icon">📊</span>
+           <h4 class="module-title">Portfolio Tracker</h4>
+           <span class="module-badge">Premium</span>
+       </div>
+       
+       <div class="form-grid">
+           <div class="form-group">
+               <label>Select Cryptocurrency:</label>
+               <select id="portfolioCoin" class="enhanced-select">
+                   <option value="bitcoin">Bitcoin (BTC) - $67,420</option>
+                   <option value="ethereum">Ethereum (ETH) - $3,240</option>
+                   <option value="solana">Solana (SOL) - $158</option>
+                   <option value="cardano">Cardano (ADA) - $0.48</option>
+                   <option value="chainlink">Chainlink (LINK) - $14.20</option>
+                   <option value="polygon">Polygon (MATIC) - $0.72</option>
+               </select>
+           </div>
+           
+           <div class="form-group">
+               <label>Holdings Amount:</label>
+               <div class="input-wrapper">
+                   <input type="number" id="portfolioAmount" placeholder="0.00000000" step="any" class="precision-input">
+                   <span class="input-suffix">Units</span>
+               </div>
+           </div>
+           
+           <div class="form-group">
+               <label>Average Buy Price (USD):</label>
+               <div class="input-wrapper">
+                   <span class="input-prefix">$</span>
+                   <input type="number" id="purchasePrice" placeholder="0.00" step="0.01" class="price-input">
+               </div>
+           </div>
+           
+           <div class="form-group">
+               <label>Investment Date:</label>
+               <input type="date" id="investmentDate" class="date-input">
+           </div>
+       </div>
+       
+       <div class="action-buttons">
+           <button class="btn btn-primary" data-action="calculatePortfolio">
+               <span class="btn-icon">📈</span>
+               Analyze Portfolio
+           </button>
+           <button class="btn btn-secondary" data-action="exportData">
+               <span class="btn-icon">📤</span>
+               Export Data
+           </button>
+       </div>
+       
+       <div class="result enhanced-result" id="portfolioResult">
+           <div class="result-placeholder">
+               <span class="placeholder-icon">💰</span>
+               <p>Enter your portfolio details to see real-time performance analysis</p>
+           </div>
+       </div>
+   </div>
+</div>
+
+            <!-- DCA Calculator -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="dca">
+                    <span class="tool-icon">💰</span>
+                    <h3 class="tool-title">DCA Calculator</h3>
+                </div>
+                <p class="tool-description">Calculate Dollar Cost Averaging returns for any cryptocurrency</p>
+                <div class="tool-form" id="dca">
+                    <div class="form-group">
+                        <label>Cryptocurrency:</label>
+                        <select id="dcaCoin">
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="cardano">Cardano (ADA)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Investment Amount (USD):</label>
+                        <input type="number" id="dcaAmount" placeholder="100" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Frequency:</label>
+                        <select id="dcaFrequency">
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="daily">Daily</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Time Period (months):</label>
+                        <input type="number" id="dcaPeriod" placeholder="12" min="1" max="60">
+                    </div>
+                    <button class="btn" data-action="calculateDCA">Calculate DCA</button>
+                    <div class="result" id="dcaResult"></div>
+                </div>
+            </div>
+
+            <!-- Bitcoin Calculator -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="bitcoin">
+                    <span class="tool-icon">₿</span>
+                    <h3 class="tool-title">Bitcoin Calculator</h3>
+                </div>
+                <p class="tool-description">Advanced Bitcoin calculations and conversions</p>
+                <div class="tool-form" id="bitcoin">
+                    <div class="form-group">
+                        <label>Bitcoin Amount:</label>
+                        <input type="number" id="btcAmount" placeholder="1.0" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Target Currency:</label>
+                        <select id="btcCurrency">
+                            <option value="usd">USD</option>
+                            <option value="eur">EUR</option>
+                            <option value="gbp">GBP</option>
+                            <option value="jpy">JPY</option>
+                        </select>
+                    </div>
+                    <button class="btn" data-action="calculateBitcoin">Calculate Value</button>
+                    <div class="result" id="bitcoinResult"></div>
+                </div>
+            </div>
+
+            <!-- Exchange Comparator -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="exchange">
+                    <span class="tool-icon">⚖️</span>
+                    <h3 class="tool-title">Exchange Comparator</h3>
+                </div>
+                <p class="tool-description">Compare cryptocurrency prices across different exchanges</p>
+                <div class="tool-form" id="exchange">
+                    <div class="form-group">
+                        <label>Cryptocurrency:</label>
+                        <select id="exchangeCoin">
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="cardano">Cardano (ADA)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount:</label>
+                        <input type="number" id="exchangeAmount" placeholder="1.0" step="any">
+                    </div>
+                    <button class="btn" data-action="compareExchanges">Compare Prices</button>
+                    <div class="result" id="exchangeResult"></div>
+                </div>
+            </div>
+
+            <!-- Price Alerts -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="alerts">
+                    <span class="tool-icon">🔔</span>
+                    <h3 class="tool-title">Price Alerts</h3>
+                </div>
+                <p class="tool-description">Set price alerts for your favorite cryptocurrencies</p>
+                <div class="tool-form" id="alerts">
+                    <div class="form-group">
+                        <label>Cryptocurrency:</label>
+                        <select id="alertCoin">
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="cardano">Cardano (ADA)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Target Price (USD):</label>
+                        <input type="number" id="targetPrice" placeholder="50000" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Alert Type:</label>
+                        <select id="alertType">
+                            <option value="above">Above Target</option>
+                            <option value="below">Below Target</option>
+                        </select>
+                    </div>
+                    <button class="btn" data-action="setAlert">Set Alert</button>
+                    <div class="result" id="alertResult"></div>
+                </div>
+            </div>
+
+            <!-- Fear & Greed Calculator -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="feargreed">
+                    <span class="tool-icon">😱</span>
+                    <h3 class="tool-title">Fear & Greed Calculator</h3>
+                </div>
+                <p class="tool-description">Analyze market sentiment with Fear & Greed Index</p>
+                <div class="tool-form" id="feargreed">
+                    <div class="form-group">
+                        <label>Market Cap Change (%):</label>
+                        <input type="number" id="marketCapChange" placeholder="5.2" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Volume Change (%):</label>
+                        <input type="number" id="volumeChange" placeholder="12.5" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Social Media Mentions:</label>
+                        <input type="number" id="socialMentions" placeholder="1000" min="0">
+                    </div>
+                    <button class="btn" data-action="calculateFearGreed">Calculate Index</button>
+                    <div class="result" id="feargreedResult"></div>
+                </div>
+            </div>
+
+            <!-- Tax Calculator -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="tax">
+                    <span class="tool-icon">🧾</span>
+                    <h3 class="tool-title">Tax Calculator</h3>
+                </div>
+                <p class="tool-description">Calculate crypto taxes and capital gains</p>
+                <div class="tool-form" id="tax">
+                    <div class="form-group">
+                        <label>Purchase Price (USD):</label>
+                        <input type="number" id="taxPurchasePrice" placeholder="30000" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Sale Price (USD):</label>
+                        <input type="number" id="taxSalePrice" placeholder="35000" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount:</label>
+                        <input type="number" id="taxAmount" placeholder="1.0" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Tax Rate (%):</label>
+                        <input type="number" id="taxRate" placeholder="20" min="0" max="100">
+                    </div>
+                    <button class="btn" data-action="calculateTax">Calculate Tax</button>
+                    <div class="result" id="taxResult"></div>
+                </div>
+            </div>
+
+            <!-- Technical Analysis -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="technical">
+                    <span class="tool-icon">📈</span>
+                    <h3 class="tool-title">Technical Analysis</h3>
+                </div>
+                <p class="tool-description">Advanced technical analysis indicators and signals</p>
+                <div class="tool-form" id="technical">
+                    <div class="form-group">
+                        <label>Cryptocurrency:</label>
+                        <select id="technicalCoin">
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="cardano">Cardano (ADA)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Timeframe:</label>
+                        <select id="timeframe">
+                            <option value="1h">1 Hour</option>
+                            <option value="4h">4 Hours</option>
+                            <option value="1d">1 Day</option>
+                            <option value="1w">1 Week</option>
+                        </select>
+                    </div>
+                    <button class="btn" data-action="analyzeTechnical">Analyze</button>
+                    <div class="result" id="technicalResult"></div>
+                </div>
+            </div>
+
+            <!-- Trading Simulator -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="trading">
+                    <span class="tool-icon">🎮</span>
+                    <h3 class="tool-title">Trading Simulator</h3>
+                </div>
+                <p class="tool-description">Practice trading with virtual money</p>
+                <div class="tool-form" id="trading">
+                    <div class="form-group">
+                        <label>Virtual Balance (USD):</label>
+                        <input type="number" id="virtualBalance" placeholder="10000" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Cryptocurrency:</label>
+                        <select id="tradingCoin">
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="cardano">Cardano (ADA)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Trade Type:</label>
+                        <select id="tradeType">
+                            <option value="buy">Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount (USD):</label>
+                        <input type="number" id="tradeAmount" placeholder="1000" step="any">
+                    </div>
+                    <button class="btn" data-action="simulateTrade">Execute Trade</button>
+                    <div class="result" id="tradingResult"></div>
+                </div>
+            </div>
+
+            <!-- Mining Calculator -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="mining">
+                    <span class="tool-icon">⛏️</span>
+                    <h3 class="tool-title">Mining Calculator</h3>
+                </div>
+                <p class="tool-description">Calculate mining profitability and returns</p>
+                <div class="tool-form" id="mining">
+                    <div class="form-group">
+                        <label>Hash Rate (MH/s):</label>
+                        <input type="number" id="hashRate" placeholder="100" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Power Consumption (W):</label>
+                        <input type="number" id="powerConsumption" placeholder="3000" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Electricity Cost ($/kWh):</label>
+                        <input type="number" id="electricityCost" placeholder="0.12" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Cryptocurrency:</label>
+                        <select id="miningCoin">
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                        </select>
+                    </div>
+                    <button class="btn" data-action="calculateMining">Calculate Profitability</button>
+                    <div class="result" id="miningResult"></div>
+                </div>
+            </div>
+
+            <!-- Paper Wallet Generator -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="paperwallet">
+                    <span class="tool-icon">📄</span>
+                    <h3 class="tool-title">Paper Wallet Generator</h3>
+                </div>
+                <p class="tool-description">Generate secure paper wallets for offline storage</p>
+                <div class="tool-form" id="paperwallet">
+                    <div class="form-group">
+                        <label>Cryptocurrency:</label>
+                        <select id="walletCoin">
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="litecoin">Litecoin (LTC)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Wallets:</label>
+                        <input type="number" id="walletCount" placeholder="1" min="1" max="10">
+                    </div>
+                    <button class="btn" data-action="generateWallet">Generate Wallet</button>
+                    <div class="result" id="paperwalletResult"></div>
+                </div>
+            </div>
+        </div>
+    <header>
+        <nav class="container">
+            <a href="../index.html" class="logo">🚀 CryptoTools Pro</a>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html">Tools</a></li>
+                <li><a href="../news/">News</a></li>
+                <li><a href="../guides/">Guides</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-btn">← Back to Home</a>
+        
+        <div class="page-title">
+            <h1>Professional Crypto Tools</h1>
+            <p>Complete suite of calculators, converters and analysis tools</p>
+        </div>
+
+        <!-- Price Ticker -->
+        <div class="price-ticker">
+            <div class="ticker-content" id="priceTicker">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+
+        <div class="tools-grid">
+            <!-- Converter Tool -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="converter">
+                    <span class="tool-icon">🔄</span>
+                    <h3 class="tool-title">Crypto Converter</h3>
+                </div>
+                <p class="tool-description">Convert between different cryptocurrencies and fiat currencies with real-time rates</p>
+                <div class="tool-form" id="converter">
+                    <div class="form-group">
+                        <label>From Currency:</label>
+                        <select id="fromCurrency">
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="cardano">Cardano (ADA)</option>
+                            <option value="solana">Solana (SOL)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>To Currency:</label>
+                        <select id="toCurrency">
+                            <option value="usd">USD</option>
+                            <option value="eur">EUR</option>
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount:</label>
+                        <input type="number" id="convertAmount" placeholder="Enter amount" step="any">
+                    </div>
+                    <button class="btn" data-action="convertCurrency">Convert</button>
+                    <div class="result" id="convertResult"></div>
+                </div>
+            </div>
+
+            <!-- Portfolio Tracker -->
+            <div class="tool-card">
+                <div class="tool-header" data-tool="portfolio">
+                    <span class="tool-icon">📊</span>
+                    <h3 class="tool-title">Portfolio Tracker</h3>
+                </div>
+                <p class="tool-description">Track your cryptocurrency portfolio value and performance</p>
+                <div class="tool-form" id="portfolio">
+                    <div class="form-group">
+                        <label>Cryptocurrency:</label>
+                        <select id="portfolioCoin">
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="cardano">Cardano (ADA)</option>
+                            <option value="solana">Solana (SOL)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount Held:</label>
+                        <input type="number" id="portfolioAmount" placeholder="0.0" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Purchase Price (USD):</label>
+                        <input type="number" id="purchasePrice" placeholder="0.0" step="any">
+                    </div>
+                    <button class="btn" data-action="calculatePortfolio">Calculate Portfolio</button>
+                    <div class="result" id="portfolioResult"></div>
+                </div>
+            </div>
+
+
 </body>
 </html>
